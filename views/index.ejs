@@ -3,9 +3,58 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Card with Input</title>
+    <style>
+        #setup{
+            display: flex;
+            height: 90vh; /* Corrected from 90vb to 90vh */
+            justify-content: center;
+            align-items: center;
+        }
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            width: 300px;
+            margin: 20px auto;
+            display: flex;
+            justify-content: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .input-container {
+            display: flex;
+            margin-bottom: 10px;
+        }
+        .input-container input[type="text"] {
+            flex: 1;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        .input-container button {
+            padding: 8px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .input-container button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
-<body>
-    Hello WORLDDDD
+<body id="setup">
+
+<div  class="card">
+    <form  method="POST"> <!-- Changed from input to form, added action and method -->
+        <div class="input-container">
+            <input type="text" name="query" required placeholder="Enter username.."> <!-- Added name attribute -->
+            <button type="submit">Find User</button> <!-- Added type attribute -->
+        </div>
+    </form>
+</div>
+
 </body>
 </html>
