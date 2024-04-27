@@ -1,6 +1,7 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+const axios = require('axios');
 const git = require('simple-git');
 require('dotenv').config();
 
@@ -26,19 +27,15 @@ const findUser = async (user_id) => {
     .then(response => {
         const repositories = response.data;
         repositories.forEach(repo => {
-            return repo.html_url, res.status(200, {message: 'successfully accessed data'});
+            console.log(repo.html_url);
         })
     })
     .catch(err => {
-        res.status(500, {message: err.message});
+        console.log(err);
     })
 }
-
-app.get('/', (req, res) => {
-    return res.render('index')
-});
-
-app.post('/', async (req, res) => {
+app.route('/')
+.post(async (req, res) => {
     try{
         const body = await req.body;
         if (!body){
@@ -47,13 +44,25 @@ app.post('/', async (req, res) => {
         else{
             const data = body.query
             console.log(data);
-            return res.status(200, {message:"success"});
+            findUser(data)
+            if (findUser(data)){
+                return res.status(200, {message: 'successfully accessed data'}),
+                res.render('default', {
+                    id: data,
+                });
+            }
+            else{
+                res.status(500, {message: err.message});
+            }
         }
     }
     catch(err){
         console.log(err);
         return res.status(500, {message: "error"});
     }
+})
+.get(async (req, res) => {
+    res.render('default');
 })
 
 app.listen(PORT, () => {

@@ -7,6 +7,7 @@
     <style>
         #setup{
             display: flex;
+            flex-direction: column;
             height: 90vh; /* Corrected from 90vb to 90vh */
             justify-content: center;
             align-items: center;
@@ -48,12 +49,35 @@
 <body id="setup">
 
 <div  class="card">
-    <form  method="POST"> <!-- Changed from input to form, added action and method -->
+    <form action="/" method="POST"> <!-- Changed from input to form, added action and method -->
         <div class="input-container">
             <input type="text" name="query" required placeholder="Enter username.."> <!-- Added name attribute -->
             <button type="submit">Find User</button> <!-- Added type attribute -->
         </div>
     </form>
+</div>
+
+<div>
+    <% if (locals.id) { %>
+    <table>
+        <thead>
+            <tr>
+                <th>Serial No.</th>
+                <th>URL</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% array.forEach( => { %>
+             
+            <% }) %>
+            <tr>
+                <td></td>
+                <td></td>
+            </tr>
+            <!-- Add more rows here -->
+        </tbody>
+    </table> <% } %>
+    
 </div>
 
 </body>
