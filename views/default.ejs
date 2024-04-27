@@ -59,24 +59,24 @@
 
 <div>
     <% if (locals.id) { %>
-    <table>
-        <thead>
-            <tr>
-                <th>Serial No.</th>
-                <th>URL</th>
-            </tr>
-        </thead>
-        <tbody>
-            <% array.forEach( => { %>
-             
-            <% }) %>
-            <tr>
-                <td></td>
-                <td></td>
-            </tr>
-            <!-- Add more rows here -->
-        </tbody>
-    </table> <% } %>
+        <table>
+            <thead>
+                <tr>
+                    <th>Serial No.</th>
+                    <th>URL</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% locals.id.forEach((url, index) => { %>
+                    <tr>
+                        <td>&nbsp; <%= index+1 %></td>
+                        <td><%= url.html_url %></td>
+                    </tr>
+                <% }) %>
+                <!-- Add more rows here -->
+            </tbody>
+        </table>
+     <% } %>
     
 </div>
 

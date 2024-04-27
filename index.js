@@ -18,42 +18,33 @@ app.use(express.urlencoded({extended: false}));
 const findUser = async (user_id) => {
     const apiURL = `https://api.github.com/users/${user_id}/repos`;
 
-    await axios.get(apiURL, {
-        headers:{
-            'Authorization': `token ${token}`,
-            'Accept': 'application/vnd.github.v3+json',
-        }
-    })
-    .then(response => {
+    try {
+        const response = await axios.get(apiURL, {
+            headers:{
+                'Authorization': `token ${token}`,
+                'Accept': 'application/vnd.github.v3+json',
+            }
+        });
         const repositories = response.data;
-        repositories.forEach(repo => {
-            console.log(repo.html_url);
-        })
-    })
-    .catch(err => {
+        return repositories;
+    }
+    catch(err) {
         console.log(err);
-    })
+    }
 }
 app.route('/')
 .post(async (req, res) => {
     try{
-        const body = await req.body;
-        if (!body){
+        const {query} = req.body;
+        if (!query){
             return res.status(404, {message: "didnt recieve name"});
         }
         else{
-            const data = body.query
-            console.log(data);
-            findUser(data)
-            if (findUser(data)){
-                return res.status(200, {message: 'successfully accessed data'}),
-                res.render('default', {
-                    id: data,
-                });
-            }
-            else{
-                res.status(500, {message: err.message});
-            }
+            const repositories =  await findUser(query)
+            res.render('default', {
+                id: repositories,
+            });
+            return res.status(200, {message: 'successfully accessed data'})
         }
     }
     catch(err){
