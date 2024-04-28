@@ -8,19 +8,19 @@
         #setup{
             display: flex;
             flex-direction: column;
-            height: 90vh; /* Corrected from 90vb to 90vh */
+            
             justify-content: center;
             align-items: center;
         }
         .card {
             border: 1px solid #ccc;
             border-radius: 5px;
-            padding: 20px;
-            width: 300px;
-            margin: 20px auto;
-            display: flex;
-            justify-content: center;
+            padding: 10px;
+            margin-bottom: 10px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .card td:first-child {
+            padding-right: 20px; /* Add some space between Serial No. and URL */
         }
         .input-container {
             display: flex;
@@ -44,15 +44,29 @@
         .input-container button:hover {
             background-color: #0056b3;
         }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        th {
+            background-color: #f0f0f0;
+        }
     </style>
 </head>
 <body id="setup">
 
 <div  class="card">
-    <form action="/" method="POST"> <!-- Changed from input to form, added action and method -->
+    <form action="/" method="POST">
         <div class="input-container">
-            <input type="text" name="query" required placeholder="Enter username.."> <!-- Added name attribute -->
-            <button type="submit">Find User</button> <!-- Added type attribute -->
+            <input type="text" name="query" required placeholder="Enter username..">
+            <button type="submit">Find Repos</button>
         </div>
     </form>
 </div>
@@ -64,20 +78,29 @@
                 <tr>
                     <th>Serial No.</th>
                     <th>URL</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
                 <% locals.id.forEach((url, index) => { %>
                     <tr>
                         <td><%= index+1 %></td>
-                        <td><%= url.html_url %></td>
+                        <td>
+                            <div class="card">
+                                <%= url.html_url %>
+                            </div>
+                        </td>
+                        <td> <!-- Added buttons for each URL -->
+                            <form action="/redirect" method="POST">
+                                <input type="hidden" name="redirectUrl" value="<%= url.html_url %>">
+                                <button type="submit">Visit</button>
+                            </form>
+                        </td>
                     </tr>
                 <% }) %>
-                <!-- Add more rows here -->
             </tbody>
         </table>
      <% } %>
-    
 </div>
 
 </body>

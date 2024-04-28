@@ -56,6 +56,12 @@ app.route('/')
     res.render('default');
 })
 
+app.route('/redirect')
+.post(async (req, res) => {
+    const link = req.body.redirectUrl;
+    res.redirect(link);
+});
+
 app.listen(PORT, () => {
     console.log('port running at', PORT);
 });
