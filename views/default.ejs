@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Card with Input</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20,100,1,-25" />    <title>Card with Input</title>
     <style>
         #setup{
             display: flex;
@@ -94,6 +94,13 @@
                                 <%= url.name %>
                                 <% if (url.language != null) { %>
                                     <button style="color: black; background-color: darkgray; border-radius: 8px; scale: 80%;" disabled="disabled"> <%= url.language %> </button>
+                                <% } %>
+                                <% if (url.stargazers_count != 0) { %>
+                                    
+                                    <span class="material-symbols-outlined">
+                                        grade
+                                    </span>
+                                    <%= url.stargazers_count %>
                                 <% } %>
                             </div>
                         </td>

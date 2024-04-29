@@ -69,10 +69,13 @@ app.route('/redirect')
 
 app.post('/clone', async(req, res) => {
     const cloneLink = req.body.clone;
-    git().clone(cloneLink, '../Downloads/DevSync')
+    const repoName = cloneLink.split('/').slice(-1)[0].replace('.git', '');
+    const cloneDir = `../Downloads/DevSync/${repoName}`
+    git().clone(cloneLink, cloneDir)
     .then(() => {
-        console.log("Success");
+        console.log("success")
         res.status(200, {message: 'Success'})
+        res.render('confirm');
     })
     .catch(err => {
         res.status(500, {message: `${err}`});
