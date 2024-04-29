@@ -3,11 +3,6 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const git = require('simple-git');
-const { read } = require('fs');
-const readline = require('readline').createInterface({
-    input: process.stdin,
-    output: process.stdout,
-});
 require('dotenv').config();
 
 
@@ -73,7 +68,6 @@ app.post('/clone', async(req, res) => {
     const cloneDir = `../Downloads/DevSync/${repoName}`
     git().clone(cloneLink, cloneDir)
     .then(() => {
-        console.log("success")
         res.status(200, {message: 'Success'})
         res.render('confirm');
     })
