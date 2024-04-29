@@ -58,6 +58,10 @@
         th {
             background-color: #f0f0f0;
         }
+        .button-gradient-1 {
+        background: linear-gradient(to right, #ff6e7f, #bfe9ff);
+        color: white;
+        }
     </style>
 </head>
 <body id="setup">
@@ -87,13 +91,22 @@
                         <td><%= index+1 %></td>
                         <td>
                             <div class="card">
-                                <%= url.html_url %>
+                                <%= url.name %>
+                                <% if (url.language != null) { %>
+                                    <button style="color: black; background-color: darkgray; border-radius: 8px; scale: 80%;" disabled="disabled"> <%= url.language %> </button>
+                                <% } %>
                             </div>
                         </td>
-                        <td> <!-- Added buttons for each URL -->
-                            <form action="/redirect" method="POST">
+                        <td style="display: flex; flex-direction: row; gap: 10px;"> <!-- Added buttons for each URL -->
+                            <form  action="/redirect" method="POST">
                                 <input type="hidden" name="redirectUrl" value="<%= url.html_url %>">
-                                <button type="submit">Visit</button>
+                                <button style="background: linear-gradient(to right, #bc4e9c, #f80759);
+                                color: white; border-radius: 5px;" type="submit">Visit</button>
+                            </form>
+                            <form action="/clone" method="POST">
+                                <input type="hidden" name="clone" value="<%= url.clone_url %>">
+                                <button style="background: linear-gradient(to right, #bc4e9c, #f80759);
+                                color: white; border-radius: 5px;" type="submit" id="clone_btn">Clone</button>
                             </form>
                         </td>
                     </tr>

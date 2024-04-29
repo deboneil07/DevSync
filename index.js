@@ -3,7 +3,13 @@ const app = express();
 const path = require('path');
 const axios = require('axios');
 const git = require('simple-git');
+const { read } = require('fs');
+const readline = require('readline').createInterface({
+    input: process.stdin,
+    output: process.stdout,
+});
 require('dotenv').config();
+
 
 const PORT = 200;
 const token = process.env.GITHUB_TOKEN;
@@ -17,7 +23,6 @@ app.use(express.urlencoded({extended: false}));
 
 const findUser = async (user_id) => {
     const apiURL = `https://api.github.com/users/${user_id}/repos`;
-
     try {
         const response = await axios.get(apiURL, {
             headers:{
@@ -60,6 +65,19 @@ app.route('/redirect')
 .post(async (req, res) => {
     const link = req.body.redirectUrl;
     res.redirect(link);
+});
+
+app.post('/clone', async(req, res) => {
+    const cloneLink = req.body.clone;
+    git().clone(cloneLink, '../Downloads/DevSync')
+    .then(() => {
+        console.log("Success");
+        res.status(200, {message: 'Success'})
+    })
+    .catch(err => {
+        res.status(500, {message: `${err}`});
+    });
+    
 });
 
 app.listen(PORT, () => {
