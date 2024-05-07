@@ -12,6 +12,15 @@
             justify-content: center;
             align-items: center;
         }
+        .btn {
+        padding: 10px 20px;
+        color: #fff;
+        border: none;
+        cursor: default; /* Set default cursor */
+        }
+        .btn:hover {
+            cursor: pointer; /* Change cursor on hover */
+        }
         .card {
             border: 1px solid #ccc;
             border-radius: 5px;
@@ -73,10 +82,17 @@
             <button type="submit">Find Repos</button>
         </div>
     </form>
+    <% if (locals.id) { %>
+        <form action="/readme" method="POST" class="input-container" style="justify-content: end; width: 200px;">
+            <input type="hidden" name="readme" value= "<%= locals.id[0].owner.login %>">
+            <button type="submit">User's Readme</button>
+        </form>
+    <% } %>
 </div>
 
 <div>
     <% if (locals.id) { %>
+        
         <table>
             <thead>
                 <tr>
@@ -107,12 +123,12 @@
                         <td style="display: flex; flex-direction: row; gap: 10px;"> <!-- Added buttons for each URL -->
                             <form  action="/redirect" method="POST">
                                 <input type="hidden" name="redirectUrl" value="<%= url.html_url %>">
-                                <button style="background: linear-gradient(to right, #bc4e9c, #f80759);
-                                color: white; border-radius: 5px;" type="submit">Visit</button>
+                                <button class="btn" style="background: linear-gradient(to right, #bc4e9c, #f80759);
+                                color: white; border-radius: 5px; " type="submit">Visit</button>
                             </form>
                             <form action="/clone" method="POST">
                                 <input type="hidden" name="clone" value="<%= url.clone_url %>">
-                                <button style="background: linear-gradient(to right, #bc4e9c, #f80759);
+                                <button class="btn" style="background: linear-gradient(to right, #bc4e9c, #f80759);
                                 color: white; border-radius: 5px;" type="submit" id="clone_btn">Clone</button>
                             </form>
                         </td>

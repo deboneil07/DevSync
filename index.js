@@ -4,6 +4,11 @@ const path = require('path');
 const axios = require('axios');
 const git = require('simple-git');
 require('dotenv').config();
+let octokit;
+import('@octokit/core').then(({ Octokit }) => {
+    // Create a new Octokit instance
+    octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+});
 
 
 const PORT = 200;
@@ -75,6 +80,29 @@ app.post('/clone', async(req, res) => {
         res.status(500, {message: `${err}`});
     });
     
+});
+
+app.post('/readme', async(req,res) => {
+    const owner = req.body.readme;
+    const repoName = owner;
+
+    try{
+        const response = await octokit.request('GET /search/repositories', {
+            q: `user:${owner} repo:${repoName}`,
+            per_page: 1
+        });
+        if (response.data.items.length > 0){
+            const readme = await octokit.request(`GET /repos/${owner}/${repoName}/readme`);
+            const readmeContent = Buffer.from(readme.data.content, 'base64').toString('utf-8');
+            
+            res.render('readme', {
+                content: readmeContent,
+            });
+        };
+    }
+    catch (err){
+        console.log(err);
+    };
 });
 
 app.listen(PORT, () => {
