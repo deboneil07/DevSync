@@ -6,7 +6,6 @@ const git = require('simple-git');
 require('dotenv').config();
 let octokit;
 import('@octokit/core').then(({ Octokit }) => {
-    // Create a new Octokit instance
     octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 });
 

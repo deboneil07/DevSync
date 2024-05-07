@@ -8,7 +8,6 @@
         #setup{
             display: flex;
             flex-direction: column;
-            
             justify-content: center;
             align-items: center;
         }
@@ -25,7 +24,7 @@
             border: 1px solid #ccc;
             border-radius: 5px;
             padding: 10px;
-            margin-bottom: 10px;
+            margin-top: 20px;
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .card td:first-child {
@@ -71,73 +70,103 @@
         background: linear-gradient(to right, #ff6e7f, #bfe9ff);
         color: white;
         }
+        .title{
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-size: larger;
+            font-weight: bolder;
+            display: flex;
+            scale: 150%;
+            align-items: center;
+            margin-top: 20px;
+            justify-content: center;
+        }
+        .card a {
+            color:#ff6e7f ;
+            margin-bottom: 20px;
+        }
     </style>
 </head>
-<body id="setup">
+<body>
 
-<div  class="card">
-    <form action="/" method="POST">
-        <div class="input-container">
-            <input type="text" name="query" required placeholder="Enter username..">
-            <button type="submit">Find Repos</button>
+    <main id="setup">
+        <div class="title">
+            <span style="color: #ff6e7f; margin-right: 5px;">GIT</span> EXPLORER
         </div>
-    </form>
-    <% if (locals.id) { %>
-        <form action="/readme" method="POST" class="input-container" style="justify-content: end; width: 200px;">
-            <input type="hidden" name="readme" value= "<%= locals.id[0].owner.login %>">
-            <button type="submit">User's Readme</button>
-        </form>
-    <% } %>
-</div>
-
-<div>
-    <% if (locals.id) { %>
+        <div  class="card">
+            <form action="/" method="POST">
+                <div class="input-container">
+                    <input type="text" name="query" required placeholder="Enter username..">
+                    <button type="submit">Find Repos</button>
+                </div>
+            </form>
+            <% if (locals.id) { %>
+                <form action="/readme" method="POST" class="input-container" style="justify-content: end; width: 200px;">
+                    <input type="hidden" name="readme" value= "<%= locals.id[0].owner.login %>">
+                    <button type="submit">User's Readme</button>
+                </form>
+            <% } %>
+        </div>
         
-        <table>
-            <thead>
-                <tr>
-                    <th>Serial No.</th>
-                    <th>URL</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% locals.id.forEach((url, index) => { %>
-                    <tr>
-                        <td><%= index+1 %></td>
-                        <td>
-                            <div class="card">
-                                <%= url.name %>
-                                <% if (url.language != null) { %>
-                                    <button style="color: black; background-color: darkgray; border-radius: 8px; scale: 80%;" disabled="disabled"> <%= url.language %> </button>
-                                <% } %>
-                                <% if (url.stargazers_count != 0) { %>
-                                    
-                                    <span class="material-symbols-outlined">
-                                        grade
-                                    </span>
-                                    <%= url.stargazers_count %>
-                                <% } %>
-                            </div>
-                        </td>
-                        <td style="display: flex; flex-direction: row; gap: 10px;"> <!-- Added buttons for each URL -->
-                            <form  action="/redirect" method="POST">
-                                <input type="hidden" name="redirectUrl" value="<%= url.html_url %>">
-                                <button class="btn" style="background: linear-gradient(to right, #bc4e9c, #f80759);
-                                color: white; border-radius: 5px; " type="submit">Visit</button>
-                            </form>
-                            <form action="/clone" method="POST">
-                                <input type="hidden" name="clone" value="<%= url.clone_url %>">
-                                <button class="btn" style="background: linear-gradient(to right, #bc4e9c, #f80759);
-                                color: white; border-radius: 5px;" type="submit" id="clone_btn">Clone</button>
-                            </form>
-                        </td>
-                    </tr>
-                <% }) %>
-            </tbody>
-        </table>
-     <% } %>
-</div>
-
+        <div>
+            <% if (locals.id) { %>
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Serial No.</th>
+                            <th>URL</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% locals.id.forEach((url, index) => { %>
+                            <tr>
+                                <td><%= index+1 %></td>
+                                <td>
+                                    <div class="card">
+                                        <%= url.name %>
+                                        <% if (url.language != null) { %>
+                                            <button style="color: black; background-color: darkgray; border-radius: 8px; scale: 80%;" disabled="disabled"> <%= url.language %> </button>
+                                        <% } %>
+                                        <% if (url.stargazers_count != 0) { %>
+                                            
+                                            <span class="material-symbols-outlined">
+                                                grade
+                                            </span>
+                                            <%= url.stargazers_count %>
+                                        <% } %>
+                                    </div>
+                                </td>
+                                <td style="display: flex; flex-direction: row; gap: 10px;"> <!-- Added buttons for each URL -->
+                                    <form  action="/redirect" method="POST">
+                                        <input type="hidden" name="redirectUrl" value="<%= url.html_url %>">
+                                        <button class="btn" style="background: linear-gradient(to right, #bc4e9c, #f80759);
+                                        color: white; border-radius: 5px; " type="submit">Visit</button>
+                                    </form>
+                                    <form action="/clone" method="POST">
+                                        <input type="hidden" name="clone" value="<%= url.clone_url %>">
+                                        <button class="btn" style="background: linear-gradient(to right, #bc4e9c, #f80759);
+                                        color: white; border-radius: 5px;" type="submit" id="clone_btn">Clone</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            <% } %>
+        </div>
+    </main>
+    <footer style="display: flex; justify-content: center; align-items: center; bottom: 0; width: 100%;">
+        <div class="card" style="width: 100%; display: flex; ">
+            <div style="flex-direction: column; display: flex;">
+                <a href="">GitHub</a>
+                <a href="">Twitter</a>
+            </div>
+            <p style="margin-top: 20px; margin-left: 20px;">
+                &copy; 2023 DevSync, All Rights Reserved 2024.<br>
+                Work in Progess...
+            </p>
+        </div>
+    </footer>
 </body>
 </html>
